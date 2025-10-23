@@ -1,5 +1,15 @@
 {
   "dependencies": {
+    "dayjs": "^1.11.18",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "name": "lab02",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

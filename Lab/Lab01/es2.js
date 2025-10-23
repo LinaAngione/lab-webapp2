@@ -1,7 +1,7 @@
 'use strict';
 const dayjs = require('dayjs');
 
-function Film(id, title, favorites = false, rating = null, idperson = 1, date = null) {
+export function Film(id, title, favorites = false, rating = null, idperson = 1, date = null) {
 
     this.id = id;
     this.title = title;
