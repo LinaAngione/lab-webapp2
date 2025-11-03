@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.19",
     "sqlite3": "^5.1.7"
   }
 }
