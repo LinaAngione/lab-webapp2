@@ -8,13 +8,14 @@ import { getQuestion} from './dao.mjs'
 const app=express();
 const port= 3001;
 
-//midlleware
+//midlleware da attivzre
 app.use(express.json());
 app.use(morgan('dev'));
 
 /*Routes*/
 
 //GET /api/question/<id>
+//ritorna una promise quindi possiamo fara o con un .dev o con un async
 app.get('/api/question/:id', async (request,response)=>{
   try{
   const question =await getQuestion(request.params.id);
@@ -29,7 +30,7 @@ app.get('/api/question/:id', async (request,response)=>{
   }
 });
 
-
+//attiviamo il server
 //start the server
 app.listen(port,()=> {console.log('Api server started ...')});
 
