@@ -18,4 +18,4 @@ function Question(id, text, email, userId, date) {
   this.date = dayjs(date);
 }
 
-export { Question, Answer };//esportare funazioni da un file java all altro
+export {Question, Answer };//esportare funazioni da un file java all altro
