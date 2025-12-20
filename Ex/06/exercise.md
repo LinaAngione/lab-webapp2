@@ -23,3 +23,10 @@ The components should **not** be interactive, yet.
 Define where to put the state in the app and how many state variables you need, reflecting on the pros and cons. 
 
 Use the 'fake' set of questions and answers to initialize the state. Update the existing components accordingly.
+
+Nel componente radice (App) - SCELTA CONSIGLIATA
+Pro: App è il "padre comune" di tutto. Mettendo lo stato qui, possiamo passare i dati (answers) a AnswersList per visualizzarli, e magari un domani a un componente Sidebar o Header. È la "Single Source of Truth" (Unica fonte di verità).
+
+Contro: Bisogna passare le funzioni di modifica (come voteUp) giù attraverso le props (Prop Drilling).
+
+Verdetto: Sì. È la pratica standard per applicazioni di queste dimensioni.
