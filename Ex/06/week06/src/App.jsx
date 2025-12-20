@@ -1,5 +1,6 @@
 //importo il css
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import {Question} from './QAModels.mjs'
 import NavHeader from './NavHeader';
 import QuestionDescription from './QuestionDescription';

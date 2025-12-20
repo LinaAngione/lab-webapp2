@@ -5,10 +5,11 @@ function QuestionDescription(props){
         <> 
             <Row>
                 <Col md={6}>
-                    <QuestionText numQuestion={props.question.id} text={props.question.text}></QuestionText>
+                    <QuestionText numQuestion={props.question.id} text={props.question.text} />
                 </Col>
-                    <QuestionAuthor author={props.question.email}></QuestionAuthor>
-                <Col md={6}></Col>
+                <Col md={6}>
+                    <QuestionAuthor label="Asked by" author={props.question.email} />
+                </Col>
             </Row>
         </>
     );
@@ -18,27 +19,29 @@ function QuestionDescription(props){
 export default QuestionDescription;
 
 function QuestionText(props){
-    <>
-        <Row>
-            <Col as='p'>
-                <strong>
-                    Question #{props.numQuestion.id}
-                </strong>
-            </Col>
-        </Row>
-        <Row>
-            <Col as='p'>
-                {props.numQuestion.text}
-            </Col>
-        </Row>
-    </>
+    return (
+        <>
+            <Row>
+                <Col as='p'>
+                    <strong>
+                        Question #{props.numQuestion}
+                    </strong>
+                </Col>
+            </Row>
+            <Row>
+                <Col as='p'>
+                    {props.text}
+                </Col>
+            </Row>
+        </>
+    );
 }
 function QuestionAuthor(props)
 {
     return(
         <Row>
             <Col as='p' className='text-end'>
-                {props.author}
+                {props.label} {props.author}
             </Col>
         </Row>
     )
