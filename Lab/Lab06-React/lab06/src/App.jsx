@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Table, Button, Collapse} from 'react-bootstrap';
-import {Film } from './Film.mjs';
+import { Container, Row, Col, Button, Collapse } from 'react-bootstrap';
+import { Film } from './Film.mjs';
 import NavFilm from './components/NavFilm';
-import Sidebar from './components/FilterFilm';
-import FilmList from './components/FilmList';  
+import FilmList from './components/FilmList';
 import FilterFilm from './components/FilterFilm';
+import dayjs from 'dayjs';
 
 // This data structure emulates a database of movies. In the future these data will be retrieved from the server.
 const INITIAL_FILMS = [
@@ -20,29 +20,56 @@ const INITIAL_FILMS = [
 
 function App() {
 
-    return(
+    const filters = {
+        'filter-all': { label: 'All', id: 'filter-all', filterFunction: () => true },
+        'filter-favorite': { label: 'Favorites', id: 'filter-favorite', filterFunction: film => film.favorite },
+        'filter-best': { label: 'Best Rated', id: 'filter-best', filterFunction: film => film.rating >= 5 },
+        'filter-lastmonth': {
+            label: 'Seen Last Month',
+            id: 'filter-lastmonth',
+            filterFunction: film => {
+                if (!film?.watchDate) return false;
+                const diff = film.watchDate.diff(dayjs(), 'month');
+                return diff <= 0 && diff > -1;
+            }
+        },
+        'filter-unseen': { label: 'Unseen', id: 'filter-unseen', filterFunction: film => !film?.watchDate }
+    };
+
+
+    let [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+
+    // 2. Stato per sapere qual è il filtro attivo (default 'all')
+    const [activeFilter, setActiveFilter] = useState('filter-all');
+
+    // 3. CALCOLO DEI FILM DA VISUALIZZARE (Stato Derivato)
+    // Ogni volta che cambia 'films' o 'activeFilter', questa variabile si aggiorna
+    const visibleFilms = INITIAL_FILMS.filter(filters[activeFilter].filterFunction);
+
+
+    return (
         <div className="min-vh-100 d-flex flex-column">
-        <NavFilm />
-        <Container fluid className="flex-grow-1 d-flex flex-column">
-            <Row calssName="flex-grow-1">
-                <Collapse id="films-filters" /*in={isSidebarExpanded}*/ className="col-md-3 bg-light d-md-block">
+            <NavFilm sidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} />
+            <Container fluid className="flex-grow-1 d-flex flex-column">
+                <Row className="flex-grow-1">
+                    <Collapse id="films-filters" in={isSidebarExpanded} className="col-md-3 bg-light d-md-block">
                         <div className="py-4">
                             <h5 className="mb-3">Filters</h5>
-                            <FilterFilm />
+                            <FilterFilm items={filters} selected={activeFilter} setFilter={setActiveFilter} />
                         </div>
-                </Collapse>
-                <Col md={9} className="pt-3">
-                <h1><span id="filter-title">All</span> films</h1>
-                    <FilmList films={INITIAL_FILMS} />
-                </Col>
-            </Row>
-            <Button variant="primary" className="rounded-circle fixed-right-bottom">
-                <i class="bi bi-plus"></i>
-            </Button>
-        </Container>
+                    </Collapse>
+                    <Col md={9} className="pt-3">
+                        <h1><span id="filter-title"> {filters[activeFilter].label}  </span> films </h1>
+                        <FilmList films={visibleFilms} />
+                    </Col>
+                </Row>
+                <Button variant="primary" className="rounded-circle fixed-right-bottom">
+                    <i className="bi bi-plus"></i>
+                </Button>
+            </Container>
         </div>
     )
-  
+
 }
 
 export default App

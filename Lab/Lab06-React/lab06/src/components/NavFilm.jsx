@@ -1,15 +1,15 @@
 import {Button, Col, Container, Row} from "react-bootstrap/";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-function Header({/*isSidebarExpanded, setIsSidebarExpanded*/}) {
+function NavFilm({isSidebarExpanded, setIsSidebarExpanded}) {
     return <header className="py-1 py-md-3 border-bottom bg-primary">
-        <Container fluid className="gap-3 align-items-center">
+        <Container fluid>
             <Row>
                 <Col xs={3} className="d-md-none">
                     <Button
-                        //onClick={() => setIsSidebarExpanded(p => !p)}
+                        onClick={() => setIsSidebarExpanded(p => !p)}
                         aria-controls="films-filters"
-                        //aria-expanded={isSidebarExpanded}
+                        aria-expanded={isSidebarExpanded}
                     >
                         <i className="bi bi-list"/>
                     </Button>
@@ -33,10 +33,13 @@ function Header({/*isSidebarExpanded, setIsSidebarExpanded*/}) {
         </Container>
     </header>;
 }
-/*
-Header.propTypes = {
+
+//This PropTypes block attaches 
+// runtime type checks to the NavFilm component’s props.
+
+NavFilm.propTypes = {
     isSidebarExpanded: PropTypes.bool,
     setIsSidebarExpanded: PropTypes.func
-}*/
+}
 
-export default Header;
+export default NavFilm;
