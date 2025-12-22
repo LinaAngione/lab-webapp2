@@ -40,12 +40,31 @@ function App() {
     });
   }
 
+  //edit
+   const editAnswer=(answer)=>{
+    setAnswers(oldAnswers=>{
+      return oldAnswers.map(answ=>{
+        if(answ.id===answer.id){
+          //ritorno un nuovo oggetto con i voti incrementati
+          return new Answer(answer.id, answer.text, answer.email,answ.userId, answer.date, answ.score+1);
+        }
+        else  
+          return answ;
+       
+      })
+  })}
+
+    const deleteAnswer = (answerId) => {
+    setAnswers(oldAnswers => {
+      return oldAnswers.filter((answer) => answer.id !== answerId); 
+    });
+  }
 
   return (
    <>
     <NavHeader numQuestion={question.id}/>
     <QuestionDescription question={question} />
-    <Answers answers={answers} voteUp={voteUp} addAnswer={addAnswer}/>
+    <Answers answers={answers} voteUp={voteUp} addAnswer={addAnswer} editAnswer={editAnswer} deleteAnswer={deleteAnswer}/>
    </>
   )
 }

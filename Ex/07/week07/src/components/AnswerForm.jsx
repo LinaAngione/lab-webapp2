@@ -7,11 +7,12 @@ import { use } from 'react';
 function AnswerForm(props) {
 
     const intialState = {
-        text: "",
-        email: "",
-        date: dayjs().format("YYYY-MM-DD")
+        text: props.answer?.text,
+        email: props.answer?.email,
+        date: props.answer?.date ?? dayjs()
     };
-
+    //??--> tra due elelementi prendi il primo se è definito altrimenti il secondo
+    //?--> se props.answer è definito prendi il campo text altrimenti undefined in questo caso ""
     const handleSubmit = async (prevState, formData) => {
 
         //senti registrazione per sentire Object cos'è
@@ -22,10 +23,11 @@ function AnswerForm(props) {
             answer.error = "The answer can't be empty, please fix it!";
             return answer;
         }
-        //aggiungo la risposta allo stato in Aoo
-
-        // aggiungo la risposta allo stato in App
-        props.addAnswer(answer);
+        if (props.addAnswer)
+            // aggiungo la risposta allo stato in App
+            props.addAnswer(answer);
+        else
+            props.editAnswer({ id: props.answer.id, ...answer });
 
         //ritorno lo stato del form
         return intialState;
@@ -53,10 +55,14 @@ function AnswerForm(props) {
                     <Form.Control name="date" type="date" required={true} defaultValue={state.date}>
                     </Form.Control>
                 </Form.Group>
-                <Button variant="primary" type="submit" >Add</Button>
-                <Button variant="danger">Cancel</Button>
+                {props.addAnswer && < Button variant="primary" type="submit" >Add</Button>}
+                {props.editAnswer && <Button variant="success" type="submit" >Add</Button>}
+                {""}
+                <Button variant="danger" onClick={props.cancel} >Cancel </Button>
             </Form> </>
     );
 }
 
 export default AnswerForm;
+
+//{""} serve per mettere uno spazio tra i due bottoni in react
