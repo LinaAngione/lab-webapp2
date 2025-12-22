@@ -37,7 +37,7 @@ function App() {
         'filter-unseen': { label: 'Unseen', id: 'filter-unseen', filterFunction: film => !film?.watchDate }
     };
 
-
+   const [editableFilm, setEditableFilm] = useState();
     let [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
     // 2. Stato per sapere qual è il filtro attivo (default 'all')
@@ -71,7 +71,34 @@ const addFilm = (film) => {
     });
 };
 
-    return (
+
+  //edit
+   const editFilm=(film)=>{
+    setFilms(oldFilms=>{
+      return oldFilms.map(fil=>{
+        if(film.id===fil.id){
+          //ritorno un nuovo oggetto con i voti incrementati
+          return new Film(
+            film.id, 
+            film.title, 
+            film.favorite, 
+            film.watchDate, 
+            film.rating
+        );
+        }
+        else  
+          return fil;
+       
+      })
+  })}
+
+   const deleteFilm = (filmId) => {
+    setFilms(oldFilms => {
+      return oldFilms.filter((film) => film.id !== filmId); 
+    });
+  };
+
+  return (
         <div className="min-vh-100 d-flex flex-column">
             <NavFilm sidebarExpanded={isSidebarExpanded} setIsSidebarExpanded={setIsSidebarExpanded} />
             <Container fluid className="flex-grow-1 d-flex flex-column">
@@ -84,12 +111,17 @@ const addFilm = (film) => {
                     </Collapse>
                     <Col md={9} className="pt-3">
                         <h1><span id="filter-title"> {filters[activeFilter].label}  </span> films </h1>
-                        <FilmList films={visibleFilms}  />
+                        <FilmList films={visibleFilms}  setShowForm={setShowForm} setEditableFilm={setEditableFilm} deleteFilm={deleteFilm}/>
                     </Col>
                 </Row>
-               {showForm ? (
-        <FormFilm addFilm={addFilm} cancel={() => setShowForm(false)} />
-      ) : ( <Button variant="primary" className="rounded-circle fixed-right-bottom" 
+               {showForm ? 
+               ( <FormFilm key={editableFilm ? editableFilm.id : -1} 
+                film={editableFilm}
+                addFilm={(film) => {addFilm(film); setShowForm(false);}}
+                editFilm={(film) => {editFilm(film); setShowForm(false);}}
+                cancel={() => setShowForm(false)}/>
+      ) : 
+      ( <Button variant="primary" className="rounded-circle fixed-right-bottom" 
                 onClick={() => setShowForm(true)}
                   >
                     <i className="bi bi-plus"></i>
@@ -97,7 +129,6 @@ const addFilm = (film) => {
             </Container>
         </div>
     )
-
 }
 
 export default App

@@ -22,10 +22,12 @@ function Answers(props) {
       <Row>
         <Col lg={10} className="mx-auto">
           <AnswerTable answers={props.answers} voteUp={props.voteUp} handleEdit={handleEdit} deleteAnswer={props.deleteAnswer}/>
-          {mode==="view" && <Button variant="primary" onClick={()=>
+          {mode==="view" &&
+           <Button variant="primary" onClick={()=>
             setMode("add")}>Add</Button>}
          { mode === "add" && <AnswerForm addAnswer={(answer) => {props.addAnswer(answer); setMode("view");}} cancel={() => setMode("view")}/>}
-         { mode === "edit" && <AnswerForm key={editableAnswer.id} answer={editableAnswer} editAnswer={(answer) => {props.editAnswer(answer); setMode("view");}} cancel={() => setMode("view")} />}
+         { mode === "edit" && 
+         <AnswerForm key={editableAnswer.id} answer={editableAnswer} editAnswer={(answer) => {props.editAnswer(answer); setMode("view");}} cancel={() => setMode("view")} />}
         </Col>
       </Row>
     </>

@@ -1,14 +1,20 @@
 import 'dayjs';
-import {Col, Row} from 'react-bootstrap/';
+import {Col, Row, Button} from 'react-bootstrap/';
 import {Film} from '../Film.mjs';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
+import { useState } from 'react';
 
 function FilmList(props) {
     const {films} = props;
 
+    const [editableFilm, setEditableFilm] = useState();
+
+    
+
     return (<ListGroup id="films-list" variant="flush">
-        {films.map((film) => <FilmInList filmData={film} key={film.id}/>)}
+        {films.map((film) => <FilmInList filmData={film} key={film.id} setShowForm={props.setShowForm} setEditableFilm={props.setEditableFilm} deleteFilm={props.deleteFilm}/>)}
+        
     </ListGroup>);
 
 }
@@ -17,7 +23,13 @@ FilmList.propTypes = {
     films: PropTypes.array.isRequired,
 };
 
-function FilmInList({filmData}) {
+function FilmInList({filmData, setShowForm, setEditableFilm, deleteFilm}) {
+
+    const handleEdit=(film)=>{
+    setShowForm(true);
+    setEditableFilm(film);
+    }
+   
 
     return (<ListGroupItem>
         <Row className="gy-2">
@@ -47,8 +59,12 @@ function FilmInList({filmData}) {
                 </div>
                 
                 <div className="d-none d-xl-flex actions">
-                    <i className="bi bi-pencil"></i>
-                    <i className="bi bi-trash"></i>
+                    <Button
+                     onClick={()=>handleEdit(filmData)}>
+                    <i className="bi bi-pencil"></i>   
+                    
+                    </Button>                    
+                    <Button onClick={()=>deleteFilm(filmData.id)} ><i className="bi bi-trash"></i>  </Button>
                 </div>
             </Col>
 

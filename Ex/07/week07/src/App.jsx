@@ -45,8 +45,7 @@ function App() {
     setAnswers(oldAnswers=>{
       return oldAnswers.map(answ=>{
         if(answ.id===answer.id){
-          //ritorno un nuovo oggetto con i voti incrementati
-          return new Answer(answer.id, answer.text, answer.email,answ.userId, answer.date, answ.score+1);
+          return new Answer(answer.id, answer.text, answer.email,answ.userId, answer.date, answ.score);
         }
         else  
           return answ;
